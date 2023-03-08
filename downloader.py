@@ -1,5 +1,5 @@
 from urllib.request import urlopen
-import json, base64, zipfile, os
+import json, base64, zipfile, io
 
 # Grab by API key
 with open("./key.txt", "r") as f:
@@ -14,18 +14,7 @@ url = f"https://api.legiscan.com/?key={api_key}&op={operation}"
 response = urlopen(url)
 json_data = json.loads(response.read())
 
-# Grab the encoded zip file from the response data
-zip_encoded = json_data["dataset"]["zip"]
-
-# Turn the encoded zip file into an actual file
-with open("./output.zip", "wb") as f:
-    f.write(base64.b64decode(zip_encoded))
-
-# Unzip the file into our input folder
-with zipfile.ZipFile("./output.zip", "r") as f:
-    f.extractall("./input/")
-
-# Clean up after ourselves
-dir_path = os.path.dirname(os.path.realpath(__file__))
-path = os.path.join(dir_path, "output.zip")
-os.remove(path)
+# Grab the encoded zip file from the response data and turn it into our actual input
+b = base64.b64decode(json_data["dataset"]["zip"])
+z = zipfile.ZipFile(io.BytesIO(b))
+z.extractall("./input/")
