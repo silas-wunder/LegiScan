@@ -5,16 +5,21 @@ import json, base64, zipfile, io
 with open("./key.txt", "r") as f:
     api_key = f.read()
 
-# Determine what operation we'll be doing
-# In this case, CO's 2020 Regular Session
-operation = "getDataset&id=1722&access_key=V4WfLj8mr7zu5xRrz8T2O"
+# This operation will return a list of all available datasets
+list_op = "getDatasetList"
 
-# Ping the API with my key and the operation, then save the response
-url = f"https://api.legiscan.com/?key={api_key}&op={operation}"
-response = urlopen(url)
-json_data = json.loads(response.read())
+# With dataset list, this will be a for loop that runs for every dataset
 
-# Grab the encoded zip file from the response data and turn it into our actual input
-b = base64.b64decode(json_data["dataset"]["zip"])
-z = zipfile.ZipFile(io.BytesIO(b))
-z.extractall("./input/")
+list_url = f"https://api.legiscan.com/?key={api_key}&op={list_op}"
+list_response = urlopen(list_url)
+list_json_data = json.loads(list_response.read())
+
+for dataset in list_json_data["datasetlist"]:
+    did = dataset["session_id"]
+    access = dataset["access_key"]
+    dataset_url = f"https://api.legiscan.com/?key={api_key}&op=getDataset&id={did}&access_key={access}"
+    response = urlopen(dataset_url)
+    json_data = json.loads(response.read())
+    b = base64.b64decode(json_data["dataset"]["zip"])
+    z = zipfile.ZipFile(io.BytesIO(b))
+    z.extractall("./input/")
