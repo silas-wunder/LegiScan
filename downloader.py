@@ -22,7 +22,7 @@ for dataset in list_json_data["datasetlist"]:
     # TODO: check to see if this works
     current_hash = dataset["dataset_hash"]
     did = dataset["session_id"]
-    if last_update_hashes[did][0] == current_hash:
+    if did in last_update_hashes and last_update_hashes[did][0] == current_hash:
         continue
     # NOTE: DO NOT UNCOMMENT AND RUN WITHOUT ENSURING EVERYTHING WORKS AND YOU HAVE TIME TO RUN THIS
     # access = dataset["access_key"]
