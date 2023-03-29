@@ -1,6 +1,5 @@
-# Analysis of Legiscan Legal Data
+# Analysis of Legiscan Legislation Data
 
-## A basic machine learning practice project
+## An application of machine leaning to real world data
 
-This project exists solely to practice my machine learning skills against real-world data, specifically legal data.
-As of right now, the only aspects of this project are a download script that pulls the relevant information from the Legiscan site using their API, expansion to actual analysis will come later.
+Legiscan has catalogued all bills that have been introduced in any body of legislature, both state and federal, since approximately 2009. They also retain all information about how any members of that body voted on bills, as well as some basic information about those representatives. This dataset no doubt can provide lots of interesting insights into how the legislative process works at the state and federal levels, as well as providing information about how well our respresentatives are actually representing us.
