@@ -7,9 +7,10 @@ with open("./key.txt", "r") as f:
 
 # Grab cached info to check for changes
 try:
-    with open("./input-caches.json", "r") as f:
+    with open(r"D:\Big Input Data Stuff\LegiScan\input-caches.json", "r") as f:
         last_update_hashes = json.loads(f.read())
 except FileNotFoundError:
+    SystemExit(1)
     last_update_hashes = {}
 
 # Check if we have a cached version before making api call again
@@ -39,7 +40,7 @@ for dataset in list_json_data["datasetlist"]:
     json_data = json.loads(response.read())
     b = base64.b64decode(json_data["dataset"]["zip"])
     z = zipfile.ZipFile(io.BytesIO(b))
-    z.extractall("./input/")
+    z.extractall(r"D:\Big Input Data Stuff\LegiScan\input")
     last_update_hashes[did] = (current_hash, json_data["dataset"]["zip"])
 
 # Write out hashes for change detection
