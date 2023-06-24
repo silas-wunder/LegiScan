@@ -14,6 +14,7 @@ except FileNotFoundError:
     last_update_hashes = {}
 
 # Check if we have a cached version before making api call again
+# NOTE: if you are running with the intention of finding new data, delete old list_cache.json
 try:
     with open("./list_cache.json", "r") as f:
         list_json_data = json.loads(f.read())
