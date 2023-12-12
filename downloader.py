@@ -1,8 +1,9 @@
 from urllib.request import urlopen
+from datetime import datetime, timezone
 import json, base64, zipfile, io
 
 # Grab by API key
-with open("./key.txt", "r") as f:
+with open("legiscan_key.txt", "r") as f:
     api_key = f.read()
 
 # Grab cached info to check for changes
@@ -47,3 +48,15 @@ for dataset in list_json_data["datasetlist"]:
 # Write out hashes for change detection
 with open("./input-caches.json", "w") as f:
     f.write(json.dumps(last_update_hashes))
+
+with open("./times.txt", "rw") as f:
+    old_data = f.readlines()
+    if len(old_data) >= 1:
+        old_data[
+            0
+        ] = f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}"
+    else:
+        old_data.append(
+            f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}"
+        )
+    f.write(old_data)
