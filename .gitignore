@@ -1,4 +1,5 @@
-key.txt
+legiscan_key.txt
+openai_key.txt
 *.code-workspace
 *.pdf
 *.vscode
