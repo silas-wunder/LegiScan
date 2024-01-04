@@ -49,7 +49,7 @@ for dataset in list_json_data["datasetlist"]:
 with open("./input-caches.json", "w") as f:
     f.write(json.dumps(last_update_hashes))
 
-with open("./times.txt", "rw") as f:
+with open("./times.txt", "a+") as f:
     old_data = f.readlines()
     if len(old_data) >= 1:
         old_data[
@@ -59,4 +59,7 @@ with open("./times.txt", "rw") as f:
         old_data.append(
             f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}"
         )
-    f.write(old_data)
+    f.seek(0)
+    for line in old_data:
+        f.write(line)
+    f.truncate()
