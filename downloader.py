@@ -24,7 +24,6 @@ try:
         list_json_data = json.loads(f.read())
 except FileNotFoundError:
     # if we don't have a cached version, make a call again
-    print("Attempted to call dataset list")
     list_url = f"https://api.legiscan.com/?key={api_key}&op=getDatasetList"
     list_response = urlopen(list_url)
     list_json_data = json.loads(list_response.read())
