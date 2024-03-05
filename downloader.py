@@ -8,19 +8,23 @@ with open("legiscan_key.txt", "r") as f:
 
 # Grab cached info to check for changes
 try:
-    with open(r"D:\Big Input Data Stuff\LegiScan\input-caches.json", "r") as f:
+    with open(r".\input-caches.json", "r") as f:
         last_update_hashes = json.loads(f.read())
 except FileNotFoundError:
-    SystemExit(1)
     last_update_hashes = {}
 
 # Check if we have a cached version before making api call again
-# NOTE: if you are running with the intention of finding new data, delete old list_cache.json
 try:
+    new_data = input(
+        "Are you running this with the intention of getting new data? (Y or N): "
+    ).lower()
+    if new_data in ("y", "ye", "yes"):
+        raise FileNotFoundError
     with open("./list_cache.json", "r") as f:
         list_json_data = json.loads(f.read())
 except FileNotFoundError:
     # if we don't have a cached version, make a call again
+    print("Attempted to call dataset list")
     list_url = f"https://api.legiscan.com/?key={api_key}&op=getDatasetList"
     list_response = urlopen(list_url)
     list_json_data = json.loads(list_response.read())
@@ -52,12 +56,12 @@ with open("./input-caches.json", "w") as f:
 with open("./times.txt", "a+") as f:
     old_data = f.readlines()
     if len(old_data) >= 1:
-        old_data[
-            0
-        ] = f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}"
+        old_data[0] = (
+            f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}\n"
+        )
     else:
         old_data.append(
-            f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}"
+            f"Last download happened at #{datetime.now(timezone.utc).strftime(f'%d/%m/%y %H:%M:%S')}\n"
         )
     f.seek(0)
     for line in old_data:
