@@ -3,5 +3,3 @@ openai_key.txt
 *.code-workspace
 *.pdf
 *.vscode
-/input/
-input-caches.json
