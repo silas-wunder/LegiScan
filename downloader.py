@@ -8,7 +8,9 @@ with open("legiscan_key.txt", "r") as f:
 
 # Grab cached info to check for changes
 try:
-    with open(r"E:\Big Input Data Stuff\LegiScan\input-caches.json", "r") as f:
+    with open(
+        r"H:\Programming\Big Input Data Stuff\LegiScan\input-caches.json", "r"
+    ) as f:
         last_update_hashes = json.loads(f.read())
 except FileNotFoundError:
     last_update_hashes = {}
@@ -45,11 +47,11 @@ for dataset in list_json_data["datasetlist"]:
     json_data = json.loads(response.read())
     b = base64.b64decode(json_data["dataset"]["zip"])
     z = zipfile.ZipFile(io.BytesIO(b))
-    z.extractall(r"E:\Big Input Data Stuff\LegiScan\input")
+    z.extractall(r"H:\Programming\Big Input Data Stuff\LegiScan\input")
     last_update_hashes[did] = (current_hash, json_data["dataset"]["zip"])
 
 # Write out hashes for change detection
-with open(r"E:\Big Input Data Stuff\LegiScan\input-caches.json", "w") as f:
+with open(r"H:\Programming\Big Input Data Stuff\LegiScan\input-caches.json", "w") as f:
     f.write(json.dumps(last_update_hashes))
 
 with open("./times.txt", "a+") as f:
