@@ -54,7 +54,7 @@ for dataset in list_json_data["datasetlist"]:
 with open(r"H:\Programming\Big Input Data Stuff\LegiScan\input-caches.json", "w") as f:
     f.write(json.dumps(last_update_hashes))
 
-with open("./times.txt", "a+") as f:
+with open("./times.txt", "r+") as f:
     old_data = f.readlines()
     if len(old_data) >= 1:
         old_data[0] = (
